@@ -1,0 +1,18 @@
+modelo_ajustado/
+flagged/
+resultados_de_entrenamiento/
+datasets/
+# Ignorar archivos de caché y logs
+*.log
+*.cache
+
+# Ignorar archivos de configuración de entornos virtuales
+.venv/
+.env/
+
+# Ignorar archivos de credenciales y secretos
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
