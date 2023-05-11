@@ -2,6 +2,7 @@ modelo_ajustado/
 flagged/
 resultados_de_entrenamiento/
 datasets/
+validations/
 # Ignorar archivos de caché y logs
 *.log
 *.cache

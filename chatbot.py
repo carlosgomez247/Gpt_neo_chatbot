@@ -1,6 +1,7 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM
 from preguntas_respuestas import preguntas_respuestas
+from util import procesar_entrada
 
 def inicializar_modelo(modelo_nombre):
     model = AutoModelForCausalLM.from_pretrained(modelo_nombre)
@@ -10,11 +11,12 @@ def inicializar_modelo(modelo_nombre):
     return model, tokenizer, device
 
 def generar_respuesta(prompt, model, tokenizer, device):
-    if prompt.lower() in preguntas_respuestas:
-        return preguntas_respuestas[prompt.lower()]
+    entrada_procesada = procesar_entrada(prompt)
+    if entrada_procesada in preguntas_respuestas:
+        return preguntas_respuestas[entrada_procesada]
     else:
         try:
-            input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
+            input_ids = tokenizer(procesar_entrada(prompt), return_tensors="pt").input_ids.to(device)
             output = model.generate(
                 input_ids=input_ids,
                 max_length=100,
@@ -31,12 +33,12 @@ def generar_respuesta(prompt, model, tokenizer, device):
             return "Lo siento, no pude generar una respuesta."
 
 def main():
-    model, tokenizer, device = inicializar_modelo("EleutherAI/gpt-neo-125M")
+    model, tokenizer, device = inicializar_modelo("./modelo_ajustado")
     while True:
-        user_input = input("Usuario: ")
-        if user_input.lower() == 'salir':
+        prompt = input("Usuario: ")
+        if prompt.lower() == 'salir':
             break
-        rta = generar_respuesta(user_input, model, tokenizer, device)
+        rta = generar_respuesta(prompt, model, tokenizer, device)
         print(f"Chatbot: {rta}")
 
 if __name__ == '__main__':
