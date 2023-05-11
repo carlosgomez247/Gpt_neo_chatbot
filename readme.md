@@ -2,6 +2,8 @@
 
 Este proyecto contiene dos scripts principales: `chatbot.py` y `entrenar_modelo.py`.
 
+modelo base : EleutherAI/gpt-neo-125M
+
 El script `chatbot.py` inicializa un modelo preentrenado de GPT-Neo y permite al usuario interactuar con el chatbot. El chatbot responde a las entradas del usuario basándose en el conocimiento que ha aprendido durante su entrenamiento.
 
 El script `entrenar_modelo.py` entrena el modelo GPT-Neo en un conjunto de datos de texto especificado. El modelo y el tokenizer son guardados en un directorio especificado.

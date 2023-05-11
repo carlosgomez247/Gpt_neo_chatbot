@@ -3,6 +3,8 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from preguntas_respuestas import preguntas_respuestas
 from util import procesar_entrada
 
+GPTNEO_MODEL_PATH = "./modelo_ajustado_GPTNEO"
+# GPTNEO_MODEL_PATH = "EleutherAI/gpt-neo-125M" 
 def inicializar_modelo(modelo_nombre):
     # Carga el modelo y el tokenizador
     # un modelo es una estructura que ha sido entrenada para realizar una tarea específica. En este caso, el modelo es una versión de GPT-Neo, que es una red neuronal de transformadores diseñada para generar texto. El modelo ha sido preentrenado en un gran conjunto de datos y ha aprendido a predecir la próxima palabra en una secuencia de texto.
@@ -49,7 +51,7 @@ def generar_respuesta(prompt, model, tokenizer, device):
             return "Lo siento, no pude generar una respuesta."
 
 def main():
-    model, tokenizer, device = inicializar_modelo("./modelo_ajustado")
+    model, tokenizer, device = inicializar_modelo(GPTNEO_MODEL_PATH)
     while True:        
         prompt = input("Usuario: ")        
         if prompt.lower() == 'salir':

@@ -1,8 +1,11 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM, Trainer, TrainingArguments
 from datasets import load_dataset
 
-MODEL_PATH = "./modelo_ajustado"
-DATA_PATH = './datasets/horario_sof_noche_prosa.txt'
+GPTNEO_MODEL_PATH = "./modelo_ajustado_GPTNEO"
+# GPTNEO_MODEL_PATH = "EleutherAI/gpt-neo-125M" 
+# BERT_MODEL_PATH = "./modelo_ajustado_BERT" #dccuchile/bert-base-spanish-wwm-cased
+
+DATA_PATH = './datasets/horario_fet_preguntas_rtas.json'
 OUTPUT_PATH = "./resultados_de_entrenamiento"
 
 # Subclase de Trainer con una función de pérdida personalizada
@@ -47,7 +50,7 @@ def entrenar_modelo(model, tokenizer, train_dataset, eval_dataset):
         per_device_eval_batch_size=1,     # Tamaño del lote de evaluación por dispositivo
         eval_steps=500,                   # Realizar una evaluación cada 500 pasos
         save_steps=1000,                  # Guardar el modelo cada 1000 pasos
-        save_total_limit=2,               # Límite para el número total de puntos de control
+        save_total_limit=3,               # Límite para el número total de puntos de control
         prediction_loss_only=False,       # Si es verdadero, solo la pérdida de predicción se usa para la evaluación
         evaluation_strategy="steps",      # Estrategia de evaluación
         optim="adamw_torch"               # Optimizador a utilizar
@@ -67,10 +70,10 @@ def guardar_modelo_y_tokenizer(model, tokenizer, model_path):
     tokenizer.save_pretrained(model_path)
 
 def main():
-    model, tokenizer = inicializar_modelo_y_tokenizer(MODEL_PATH)
+    model, tokenizer = inicializar_modelo_y_tokenizer(GPTNEO_MODEL_PATH)
     train_dataset, eval_dataset = preparar_datasets(tokenizer, DATA_PATH)
     entrenar_modelo(model, tokenizer, train_dataset, eval_dataset)
-    guardar_modelo_y_tokenizer(model, tokenizer, MODEL_PATH)
+    guardar_modelo_y_tokenizer(model, tokenizer, GPTNEO_MODEL_PATH)
 
 if __name__ == "__main__":
     main()
